@@ -1,0 +1,583 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title>BCELoss_vs_BCEWithLogistsloss</title>
+    <url>/2021/04/12/BCELoss_vs_BCEWithLogistsloss/</url>
+    <content><![CDATA[<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">label &#x3D; torch.Tensor([1, 1, 0])</span><br><span class="line">pred &#x3D; torch.Tensor([3, 2, 1])</span><br><span class="line">pred_sig &#x3D; torch.sigmoid(pred)</span><br><span class="line"># BCELoss must be used together with sigmoid</span><br><span class="line">loss &#x3D; nn.BCELoss()</span><br><span class="line">print(loss(pred_sig, label))</span><br><span class="line"># BCEWithLogitsLoss</span><br><span class="line">loss &#x3D; nn.BCEWithLogitsLoss()</span><br><span class="line">print(loss(pred, label))</span><br></pre></td></tr></table></figure>
+<p>The above code is from <a href="https://zhuanlan.zhihu.com/p/170558960" target="_blank" rel="noopener">here</a></p>
+<p><a href="https://pytorch.org/docs/stable/generated/torch.nn.BCEWithLogitsLoss.html" target="_blank" rel="noopener">doc</a>BCEWithLogitsLoss combines a Sigmoid layer and the BCELoss in one single class.</p>
+]]></content>
+  </entry>
+  <entry>
+    <title>595 Big Countries</title>
+    <url>/2022/07/10/BigCountries/</url>
+    <content><![CDATA[<p>Table: World</p>
+<p>+————-+———+<br>| Column Name | Type    |<br>+————-+———+<br>| name        | varchar |<br>| continent   | varchar |<br>| area        | int     |<br>| population  | int     |<br>| gdp         | int     |<br>+————-+———+<br>name is the primary key column for this table.<br>Each row of this table gives information about the name of a country, the continent to which it belongs, its area, the population, and its GDP value.</p>
+<p>A country is big if:</p>
+<ul>
+<li>it has an area of at least three million (i.e., 3000000 km2), or</li>
+<li>it has a population of at least twenty-five million (i.e., 25000000).</li>
+</ul>
+<p>Write an SQL query to report the name, population, and area of the big countries.</p>
+<p><strong>Solution</strong>:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">SELECT name, population, area</span><br><span class="line">FROM World</span><br><span class="line">WHERE area &gt;&#x3D;3000000</span><br><span class="line">OR population &gt;&#x3D; 25000000;</span><br></pre></td></tr></table></figure>
+
+<p>OR using “union”</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">SELECT</span><br><span class="line">    name, population, area</span><br><span class="line">FROM</span><br><span class="line">    world</span><br><span class="line">WHERE</span><br><span class="line">    area &gt;&#x3D; 3000000</span><br><span class="line"></span><br><span class="line">UNION</span><br><span class="line"></span><br><span class="line">SELECT</span><br><span class="line">    name, population, area</span><br><span class="line">FROM</span><br><span class="line">    world</span><br><span class="line">WHERE</span><br><span class="line">    population &gt;&#x3D; 25000000</span><br><span class="line">;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>SQL</category>
+      </categories>
+      <tags>
+        <tag>SQL</tag>
+        <tag>Leetcode</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>596 Classes More Than 5 Students</title>
+    <url>/2022/07/10/ClassesMoreThan5Students/</url>
+    <content><![CDATA[<p>Table: Courses</p>
+<p>+————-+———+<br>| Column Name | Type    |<br>+————-+———+<br>| student     | varchar |<br>| class       | varchar |<br>+————-+———+<br>(student, class) is the primary key column for this table.<br>Each row of this table indicates the name of a student and the class in which they are enrolled.</p>
+<p>Write an SQL query to report all the classes that have at least five students.</p>
+<p><strong>Solution</strong>:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">SELECT class FROM</span><br><span class="line">(</span><br><span class="line">    SELECT class, count(student) as cnt</span><br><span class="line">    FROM Courses</span><br><span class="line">    GROUP BY class</span><br><span class="line">    HAVING cnt &gt;&#x3D; 5</span><br><span class="line"></span><br><span class="line">) as A;</span><br></pre></td></tr></table></figure>
+
+<p><strong>Official Solution</strong>:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">SELECT</span><br><span class="line">    class</span><br><span class="line">FROM</span><br><span class="line">    courses</span><br><span class="line">GROUP BY class</span><br><span class="line">HAVING COUNT(DISTINCT student) &gt;&#x3D; 5</span><br><span class="line">;</span><br></pre></td></tr></table></figure>
+<p><strong>Note</strong>: The official solution uses count(distinct student), but I don’t think so, because the (student, class) is the primary key.</p>
+]]></content>
+      <categories>
+        <category>SQL</category>
+      </categories>
+      <tags>
+        <tag>SQL</tag>
+        <tag>Leetcode</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>CUDA_out_of_memory</title>
+    <url>/2021/04/07/CUDA_out_of_memory/</url>
+    <content><![CDATA[<p>how to avoid “CUDA out of memory” in PyTorch?<br>answer: reduce the batch_size </p>
+]]></content>
+  </entry>
+  <entry>
+    <title>BERT</title>
+    <url>/2021/04/05/BERT/</url>
+    <content><![CDATA[<p>以下来自于 深度之眼 BERT paper<br>Glue Benchmark</p>
+<p>句子相似度    数据集：MSR Paraphrase Corpus; Quora Question Pairs; STS Benchmark</p>
+<p>Feature-based: 在大的数据集上训练，训练好的参数直接用于下游任务。<br>Fine-tuning: 在大的数据集上训练，在下游任务时训练好的参数会改变 (maybe 训练好的参数值用于初始化)</p>
+<p>Bert 历史意义：</p>
+<ul>
+<li>获取了left-to-right 和right-to-left 的上下文信息</li>
+<li>nlp领域正式开始pretraining + finetuning的模型训练方式</li>
+<li>Bert之前 各个下游任务都有自身的模型； Bert之后 各个下游任务考虑使用Bert模型</li>
+</ul>
+<p>预训练好的Bert可以直接fine-tuning, 只需要加相应的输出层，无需太多模型结构的改动。</p>
+<p>衍生模型：</p>
+<ul>
+<li>RoBERTa<ul>
+<li>模型更大，参数量更多，静态mask (每个epoch mask相同的单词)变成动态mast（每个epoch随机mask不同的单词）.</li>
+</ul>
+</li>
+<li>ALBERTA<ul>
+<li>参数量减少，跨层的参数共享</li>
+</ul>
+</li>
+<li>Sentence-BERT<ul>
+<li>孪生网络</li>
+</ul>
+</li>
+</ul>
+<p>Bert 结构：</p>
+<ul>
+<li>input: token embedding + segment embedding (sentence embedding) + position embedding</li>
+<li>1, Transformer encoder</li>
+<li>2, 线性层或全连接层 （激活函数 GELU)+Norm</li>
+<li>3, softmax</li>
+</ul>
+]]></content>
+  </entry>
+  <entry>
+    <title>181 Employees Earning More Than Their Managers</title>
+    <url>/2022/07/10/EmployeesEarningMoreThanTheirManagers/</url>
+    <content><![CDATA[<p>Table: Employee</p>
+<p>+————-+———+<br>| Column Name | Type    |<br>+————-+———+<br>| id          | int     |<br>| name        | varchar |<br>| salary      | int     |<br>| managerId   | int     |<br>+————-+———+<br>id is the primary key column for this table.<br>Each row of this table indicates the ID of an employee, their name, salary, and the ID of their manager.</p>
+<p>Write an SQL query to find the employees who earn more than their managers.</p>
+<p><strong>My Solution</strong>:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">SELECT emp.name as Employee FROM</span><br><span class="line">(</span><br><span class="line"> SELECT id, name, salary, managerId</span><br><span class="line">    FROM Employee</span><br><span class="line">    WHERE id in (SELECT managerId from Employee)</span><br><span class="line">) as manager,</span><br><span class="line">Employee as emp</span><br><span class="line">WHERE emp.managerId &#x3D; manager.id</span><br><span class="line">AND emp.salary &gt; manager.salary</span><br></pre></td></tr></table></figure>
+<p><strong>note</strong>: first generate the manager table, using the Employee table in order to avoid cascade manager, for example, A is B’s manager, and C is A’s manager.</p>
+<p><strong>Official Solution</strong>:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">SELECT</span><br><span class="line">    a.Name AS &#39;Employee&#39;</span><br><span class="line">FROM</span><br><span class="line">    Employee AS a,</span><br><span class="line">    Employee AS b</span><br><span class="line">WHERE</span><br><span class="line">    a.ManagerId &#x3D; b.Id</span><br><span class="line">        AND a.Salary &gt; b.Salary;</span><br></pre></td></tr></table></figure>
+<p><strong>Note</strong>: it is 10 ms lower than my solution, because I joined a smaller table.</p>
+]]></content>
+      <categories>
+        <category>SQL</category>
+      </categories>
+      <tags>
+        <tag>SQL</tag>
+        <tag>Leetcode</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>English-writing</title>
+    <url>/2021/04/14/English-writing/</url>
+    <content><![CDATA[<p>Online resources:</p>
+<ul>
+<li><a href="https://owl.purdue.edu/owl/purdue_owl.html" target="_blank" rel="noopener">Purdue OWL</a></li>
+<li><a href="https://webapps.towson.edu/ows/index.asp" target="_blank" rel="noopener">Towson University</a></li>
+<li>other university writing centers</li>
+</ul>
+<p>Books:</p>
+<ul>
+<li>A Writer’s Reference by Diana Hacker</li>
+<li>Writing Analytically (8th ed.) by Rosenwasser &amp; Stephen</li>
+<li>The Elements of Style by Strunk &amp; White</li>
+</ul>
+<p>-Ideas:</p>
+<ul>
+<li>free writing</li>
+<li>keep a journal (research diary)</li>
+<li>blogging</li>
+</ul>
+]]></content>
+  </entry>
+  <entry>
+    <title>Google Colab</title>
+    <url>/2022/07/11/GoogleColab/</url>
+    <content><![CDATA[<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">from google.colab import drive</span><br><span class="line">drive.mount(&#39;&#x2F;content&#x2F;drive&#39;)</span><br><span class="line">%cd &#x2F;content&#x2F;drive&#x2F;My Drive&#x2F;test&#x2F;</span><br><span class="line">%ls</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>colab</category>
+      </categories>
+      <tags>
+        <tag>colab</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>180 Consecutive Numbers</title>
+    <url>/2022/07/10/ConsecutiveNumbers/</url>
+    <content><![CDATA[<p>Table: Logs</p>
+<p>+————-+———+<br>| Column Name | Type    |<br>+————-+———+<br>| id          | int     |<br>| num         | varchar |<br>+————-+———+<br>id is the primary key for this table.<br>id is an autoincrement column.</p>
+<p>Write an SQL query to find all numbers that appear at least three times consecutively.</p>
+<p>Return the result table in any order.</p>
+<p><strong>Solution</strong>:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">SELECT distinct L1.num as ConsecutiveNums</span><br><span class="line">FROM Logs as L1, Logs as L2, Logs as L3</span><br><span class="line">WHERE L1.num &#x3D; L2.num</span><br><span class="line">AND L2.num &#x3D; L3.num</span><br><span class="line">AND L2.id &#x3D; L1.id +1</span><br><span class="line">AND L3.id &#x3D; L2.id + 1;</span><br></pre></td></tr></table></figure>
+<p><strong>Note</strong>:<br>we need to add a keyword DISTINCT because it will display a duplicated number if one number appears more than 3 times consecutively.</p>
+<p><strong>Official Solution</strong>:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">SELECT DISTINCT</span><br><span class="line">    l1.Num AS ConsecutiveNums</span><br><span class="line">FROM</span><br><span class="line">    Logs l1,</span><br><span class="line">    Logs l2,</span><br><span class="line">    Logs l3</span><br><span class="line">WHERE</span><br><span class="line">    l1.Id &#x3D; l2.Id - 1</span><br><span class="line">    AND l2.Id &#x3D; l3.Id - 1</span><br><span class="line">    AND l1.Num &#x3D; l2.Num</span><br><span class="line">    AND l2.Num &#x3D; l3.Num</span><br><span class="line">;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>SQL</category>
+      </categories>
+      <tags>
+        <tag>SQL</tag>
+        <tag>Leetcode</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Get_BERT_embeddings</title>
+    <url>/2021/04/15/Get_BERT_embeddings/</url>
+    <content><![CDATA[<p>this <a href="https://github.com/danlou/bert-disambiguation/blob/master/nlm_encoder.py" target="_blank" rel="noopener">code</a><br>seems to get embeddings of different tokens.</p>
+]]></content>
+  </entry>
+  <entry>
+    <title>English_Vocb</title>
+    <url>/2021/04/11/English_Vocb/</url>
+    <content><![CDATA[<ul>
+<li>Easy to use, but also extremely <strong>versatile</strong>. 用途广泛</li>
+</ul>
+]]></content>
+  </entry>
+  <entry>
+    <title>How to Navigate NLP topics</title>
+    <url>/2021/05/02/How_to_Navigate_NLP_topics/</url>
+    <content><![CDATA[<p>What do NLPers actually do?</p>
+<ul>
+<li>The best resource to get acquainted with NLP research is conference proceedings.<ul>
+<li>Read the titles</li>
+<li>Sections  </li>
+</ul>
+</li>
+<li>See how the conference organizer group the papers, such as call for papers.</li>
+</ul>
+<p>A Landscape of AI (Topics - conferences):</p>
+<p>Artificial Intelligence (AAAI, IJCAI)</p>
+<ul>
+<li>Logical Reasoning</li>
+<li>planing / Searching</li>
+<li>Machine Learning (ICML, NeurIPS, ICLR)<ul>
+<li>NLP (ACL, EMNLP, NAACL, COLING)</li>
+<li>CV (CVPR, ICCV, ECCV)</li>
+<li>Data Mining (KDD, ICDM)</li>
+<li>Speech Processing (INTERSPEECH, ICASSP)</li>
+</ul>
+</li>
+</ul>
+<p>Where to find NLP papers?</p>
+<ul>
+<li><a href="https://www.aclweb.org/anthology/" target="_blank" rel="noopener">NLP anthology</a></li>
+</ul>
+<p>How to find the SOTA results of NLP tasks?</p>
+<ul>
+<li><a href="http://nlpprogress.com/" target="_blank" rel="noopener">NLP progress</a></li>
+</ul>
+<p>How to find papers with code?</p>
+<ul>
+<li><a href="https://paperswithcode.com/" target="_blank" rel="noopener">paper with code</a></li>
+<li>Author’s github</li>
+</ul>
+]]></content>
+      <categories>
+        <category>NLP research</category>
+      </categories>
+      <tags>
+        <tag>research</tag>
+        <tag>conference</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>How to Select a Research Topic</title>
+    <url>/2021/05/02/How_to_select_a_research_topic/</url>
+    <content><![CDATA[<ul>
+<li>a topic that you are <strong>interested</strong> in</li>
+<li>hot (hard to publish paper) vs. less crowded (reviewer may not understand)<ul>
+<li>find a balance: a hot topic but with a novel way to do it.</li>
+</ul>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>NLP research</category>
+      </categories>
+      <tags>
+        <tag>research</tag>
+        <tag>NLP</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>NLP Book Notes</title>
+    <url>/2021/03/31/NLPBook_read_notes/</url>
+    <content><![CDATA[<p><a href="https://docs.google.com/document/d/1NAeuShbF-WtZkjhqcvdCl-yNLW4h2MLkMP47raHOzI4/edit" target="_blank" rel="noopener">notes</a></p>
+]]></content>
+      <categories>
+        <category>Book</category>
+      </categories>
+      <tags>
+        <tag>Book</tag>
+        <tag>Notes</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>176 Second Highest Salary</title>
+    <url>/2022/07/10/SecondHighestSalary/</url>
+    <content><![CDATA[<p>Table: Employee</p>
+<p>+————-+——+<br>| Column Name | Type |<br>+————-+——+<br>| id          | int  |<br>| salary      | int  |<br>+————-+——+<br>id is the primary key column for this table.<br>Each row of this table contains information about the salary of an employee.</p>
+<p>Write an SQL query to report the second highest salary from the Employee table. If there is no second highest salary, the query should report null.</p>
+<p><strong>Solution</strong>:<br>1)</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">SELECT DISTINCT salary AS SecondHighestSalary</span><br><span class="line">FROM employee</span><br><span class="line">ORDER BY salary DESC</span><br><span class="line">LIMIT 1 OFFSET 1;</span><br></pre></td></tr></table></figure>
+<p><strong>Note</strong>: This does not work, if the table only has one row, because it will return nothing instead of NULL.</p>
+<p>2)</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">SELECT</span><br><span class="line">(SELECT DISTINCT salary AS SecondHighestSalary</span><br><span class="line">FROM employee</span><br><span class="line">ORDER BY salary DESC</span><br><span class="line">LIMIT 1 OFFSET 1) AS SecondHighestSalary;</span><br></pre></td></tr></table></figure>
+<p>Or</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">SELECT</span><br><span class="line">IFNULL((SELECT DISTINCT salary AS SecondHighestSalary</span><br><span class="line">FROM employee</span><br><span class="line">ORDER BY salary DESC</span><br><span class="line">LIMIT 1 OFFSET 1),NULL) AS SecondHighestSalary;</span><br></pre></td></tr></table></figure>
+
+<p><strong>Note</strong>:</p>
+<ul>
+<li>“LIMIT 1 OFFSET 1” means starting from second row and returning 1 row.</li>
+<li>IFNULL(exp1, exp2): returning “exp2” if “exp1” is NULL, otherwise “exp1”</li>
+</ul>
+]]></content>
+      <categories>
+        <category>SQL</category>
+      </categories>
+      <tags>
+        <tag>SQL</tag>
+        <tag>Leetcode</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Matplotlib library</title>
+    <url>/2022/07/17/Matplotlib/</url>
+    <content><![CDATA[<p>In ipython, we use %matplotlib inline to show figures, so we don’t need the command: plt.show();</p>
+<p>In pycharm, we need plt.show() to show figures.</p>
+]]></content>
+      <categories>
+        <category>Matplotlib</category>
+      </categories>
+      <tags>
+        <tag>Matplotlib</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>NLP-Data-Augment</title>
+    <url>/2021/04/21/NLP-Data-Augment/</url>
+    <content><![CDATA[<p><a href="https://www.sohu.com/a/404693471_610300" target="_blank" rel="noopener">nlp 数据增强技术</a></p>
+]]></content>
+  </entry>
+  <entry>
+    <title>Pytorch learning 1</title>
+    <url>/2021/03/19/Pytorch_learning_1/</url>
+    <content><![CDATA[<p>** 定义模型 **</p>
+<ul>
+<li>定义类 继承torch.nn.Module</li>
+<li>在 <strong>init</strong>中定义模型框架</li>
+<li>定义 forward 函数</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">class Net(torch.nn.Module):</span><br><span class="line">  def __init__(self, D_in, H, D_out):</span><br><span class="line">    super(Net,self).__init__()</span><br><span class="line">    self.linear1 &#x3D; torch.nn.Linear(D_in, H)</span><br><span class="line">    self.linear2 &#x3D; torch.nn.Linear(H, D_out)</span><br><span class="line"></span><br><span class="line">  def forward(self, x):</span><br><span class="line">    x &#x3D; torch.nn.functional.relu(self.linear1(x))</span><br><span class="line">    y_pred &#x3D; self.linear2(x)</span><br><span class="line">    return y_pred</span><br></pre></td></tr></table></figure>
+
+<p>**定义loss函数</p>
+<ul>
+<li>loss_fn = nn.MSELoss()</li>
+</ul>
+<p>**定义优化器</p>
+<ul>
+<li>optimizer = torch.optim.Adam(model.parameters(), lr=1e-4)</li>
+</ul>
+<p>**训练模型</p>
+<ul>
+<li>forward pass<ul>
+<li>计算 y_pred</li>
+<li>计算 loss = loss_fn(y_pred,y)</li>
+</ul>
+</li>
+<li>backward pass<ul>
+<li>计算grandient: loss.backward()</li>
+<li>for RNN,sneed to do gradient clip: torch.nn.utils.clip_grad_norm_(model.parameters(),5)</li>
+<li>优化/更新参数 optimizer.step()</li>
+<li>清空gradient: optimizer.zero_grad()</li>
+</ul>
+</li>
+</ul>
+<p>Here is a simple <a href="https://colab.research.google.com/drive/1rK4lxg8ygCPITB5bkd7l8k9YpHW6Od-x?usp=sharing" target="_blank" rel="noopener">code</a></p>
+]]></content>
+      <categories>
+        <category>pytorch</category>
+      </categories>
+      <tags>
+        <tag>pytorch</tag>
+        <tag>NN</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>embeddings</title>
+    <url>/2021/03/19/embeddings/</url>
+    <content><![CDATA[<p>Ambiguity</p>
+<ul>
+<li>Lexical ambiguity</li>
+<li>Syntactic ambiguity. A sentence could be parsed syntactically in multiple<br>ways.</li>
+<li>Metonymic ambiguity. Metonymy is the substitution of a concept, phrase or<br>word being meant with a semantically related one.</li>
+<li>Anaphoric ambiguity. This type of ambiguity concerns the interpretation of<br>pronouns.</li>
+</ul>
+<p>Representations</p>
+<ul>
+<li><p>ASCII representation</p>
+<ul>
+<li>cannot represent semantic information of words</li>
+<li>the representation is character-wise</li>
+</ul>
+</li>
+<li><p>One-hot representation</p>
+<ul>
+<li>cannot represent semantic information of words</li>
+<li>sparse when dictionary is large</li>
+</ul>
+</li>
+<li><p>Vector Space Models (VSM)<br>In this model, objects are represented as vectors in multi-dimensional<br>continuous space (semantic space). The representation of the objects are<br>called <strong>distributed representation</strong>.</p>
+</li>
+</ul>
+<p>The <strong>distributional hypothesis</strong>: words that occur in the same contexts tend<br>to have similar meanings.</p>
+<p>Many types of embeddings are based on Word2Vec.</p>
+<p>Word embeddings proved to be potent keepers of semantic.</p>
+<p>Contextualized representation: the input is words along with their contexts, not isolated words.</p>
+<p>Graph embedding techniques:</p>
+<p>A recent node embedding technique: <strong>Graph Convolutional Networks</strong>.</p>
+<ul>
+<li>Matrix factorization-based methods</li>
+<li>Random-walk based algorithms</li>
+<li>Graph neural networks </li>
+</ul>
+]]></content>
+      <categories>
+        <category>NLP</category>
+      </categories>
+      <tags>
+        <tag>NLP</tag>
+        <tag>embeddings</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Frozen parameters</title>
+    <url>/2021/03/05/frozen-parameters/</url>
+    <content><![CDATA[<p>In a NN, parameters that don’t compute gradients are usually called <strong>frozen parameters</strong> <a href="https://pytorch.org/tutorials/beginner/blitz/autograd_tutorial.html#sphx-glr-beginner-blitz-autograd-tutorial-py" target="_blank" rel="noopener">link</a></p>
+<p>In fine-tuning a pre-trained network, we <strong>freeze</strong> most of the model and typically only modify the classifier layers to make predictions on new labels.</p>
+]]></content>
+      <categories>
+        <category>pytorch</category>
+      </categories>
+      <tags>
+        <tag>pytorch</tag>
+        <tag>NN</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Hello World</title>
+    <url>/2020/07/15/hello-world/</url>
+    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html" target="_blank" rel="noopener">Deployment</a></p>
+]]></content>
+  </entry>
+  <entry>
+    <title>Pytorch learning 2</title>
+    <url>/2021/03/19/pytorch_learning_2/</url>
+    <content><![CDATA[<ul>
+<li>one hot<ul>
+<li>bag of words</li>
+<li>TF-IDF</li>
+<li>N-gram</li>
+<li>Distributed representation （分布式学习）</li>
+</ul>
+</li>
+<li>假设 一个单词可以用周围的单词来表示</li>
+<li>focus word 附近的词会代表 focus word 含义， 这样可能<br>导致用substitution method计算词的相似性会产生问题。</li>
+</ul>
+<p>定义一个假的任务，目标是训练模型中的参数，这些参数就是词向量<br>目标是： 训练一个好的词向量</p>
+<p>用词向量作为NN输入，后面加传统的方法</p>
+]]></content>
+      <categories>
+        <category>pytorch</category>
+      </categories>
+      <tags>
+        <tag>pytorch</tag>
+        <tag>NN</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>How to Conduct Surveys</title>
+    <url>/2021/05/02/how_to_conduct_surveys/</url>
+    <content><![CDATA[<ul>
+<li>google scholar with keywords</li>
+<li>semantic scholar<br>The above two neither sufficient nor necessary.</li>
+</ul>
+<p>Only look for <strong>top conference</strong> papers</p>
+<p>Suggest <strong>Forward</strong> and <strong>Backward</strong> search:</p>
+<ul>
+<li>Backward<ul>
+<li>find a seed paper, look at its references</li>
+<li>repeat first step for each of its reference</li>
+</ul>
+</li>
+<li>Forward<ul>
+<li>for the seed paper, use google scholar to find papers that “cited by”</li>
+<li>repeat previous step for each of its references</li>
+</ul>
+</li>
+</ul>
+<p>List all the relevant papers in a document and <strong>categorize</strong> them based on settings, approaches, applications and so on.</p>
+<p>One example:<br>Text generation</p>
+<ul>
+<li>sequece to sequence supervised</li>
+<li>few-shot transfer Learning</li>
+<li>unsupervised learning<ul>
+<li>search based</li>
+<li>search and learning</li>
+<li>rules and template based</li>
+</ul>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>NLP research</category>
+      </categories>
+      <tags>
+        <tag>research</tag>
+        <tag>NLP</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Python 类型注解</title>
+    <url>/2021/05/04/python_return_type/</url>
+    <content><![CDATA[<p>Python 3 提供了一个新的特性：<strong>函数注解</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">def add(x:int, y:int) -&gt; int:</span><br><span class="line">  return x+y</span><br></pre></td></tr></table></figure>
+<p>用 :类型 的形式指定函数的参数类型， 用 -&gt; 类型 的形式指定函数的返回值类型</p>
+<p><a href="https://zhuanlan.zhihu.com/p/37239021" target="_blank" rel="noopener">文章来源</a></p>
+]]></content>
+      <categories>
+        <category>Python</category>
+      </categories>
+      <tags>
+        <tag>Python</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>test</title>
+    <url>/2020/07/15/test/</url>
+    <content><![CDATA[<p>This is just a test</p>
+]]></content>
+  </entry>
+  <entry>
+    <title>task</title>
+    <url>/2021/04/02/task/</url>
+    <content><![CDATA[<p>squeeze()<br>train.train()<br>train.test()</p>
+<p>torch.multinominal() sampling</p>
+<p>CNN 在nlp中相当于n-gram feature detector</p>
+<p>训练集上多加noise，模型才robust<br>CNN: 看 斯坦福的 cs231n</p>
+<p>seq2seq: 一个encoder； 一个decoder; 串联起来</p>
+<p>seq2seq模型一般不自己写，一般用别人写好的，<br>例如<a href="https://opennmt.net/" target="_blank" rel="noopener">OpenNMT</a><br>或 <a href="https://allennlp.org/" target="_blank" rel="noopener">AllenNLP</a></p>
+<p>问答数据集：[SQuAD] (<a href="https://rajpurkar.github.io/SQuAD-explorer/" target="_blank" rel="noopener">https://rajpurkar.github.io/SQuAD-explorer/</a>)</p>
+<p>Attention: attention is all you need; luong attention (Effective Approaches to attention-based Neural Machine Translation); Bahdanau et al. 2016 attention</p>
+<p>Elmo: 不做fine tune<br>Bert: fine tune</p>
+<p><a href="https://github.com/allenai/writing-code-for-nlp-research-emnlp2018/blob/master/writing_code_for_nlp_research.pdf" target="_blank" rel="noopener">how to write code</a></p>
+]]></content>
+  </entry>
+  <entry>
+    <title>Lexical substitution survey</title>
+    <url>/2021/05/04/lexical_substitution_survey/</url>
+    <content><![CDATA[<p>ACL - Zhou et al.(2019) “BERT-based Lexical Substitution”</p>
+<ul>
+<li>mentioned that some previous methods use WordNet as resource.</li>
+<li>use BERT to propose and validate substitute candidates.</li>
+</ul>
+<p>ACL - Hintz et al. (2016) “Language transfer learning for supervised lexical substitution”</p>
+<ul>
+<li>the method contains two parts: candidate selection and ranking</li>
+<li>for the candidate selection: use WordNet as candidate selection: consider all possible senses for a given<br>target word and obtain all synonyms, hypernyms and hyponyms and their<br>transitive hull.</li>
+<li>for the ranking: use a learning-to-rank methods to train a supervised model for ranking the candidates by relevance. Specifically, they use <strong>LambdaMART</strong> (Wu et al. 2010) as the learning-to-rank method.</li>
+</ul>
+<p>ACL - Szarvas et al. (2013) “Learning to rank lexical substitutions”</p>
+<ul>
+<li>Evaluated several learning-to-rank models (classification-based and regression-based methods) to the lexical substitution task.</li>
+<li>generate a set of substitution candidates using WordNet: all synonyms from all the target word’s synsets; in order to expand the set, the synsets which have relation to the target word’s synsets are also considered. Each substitute then constitutes a training (or test) example.</li>
+</ul>
+<p>COLING - Hou et al.(2020) “Try to Substitute: An Unsupervised Chinese Word Sense Disambiguation Method Based on HowNet”</p>
+<ul>
+<li>could adapt lexical substitution task for WSD task.</li>
+</ul>
+<p>EACL - Breit et al. (2021) “WiC-TSV: An Evaluation Benchmark for Target Sense Verification of Words in Context”</p>
+<ul>
+<li>WiC-TSV is a binary classification task containing 3832 instances. <a href="https://competitions.codalab.org/competitions/23683" target="_blank" rel="noopener">description</a></li>
+<li>Each instance consists of a target word (w), its corresponding target sense (s) represented by either its definition or its hypernyms, and a context (c) containing the target word w.</li>
+<li>the task aims to define whether the sense of target word used in the context match the given definition or its hypernyms.</li>
+<li>the training dataset is based on the WiC dataset, which is generated from WN and Wiktionary. The paper maps the sense of the target word w to the corresponding WN synset, but it doesn’t mention the mapping method or provide the mapping results.</li>
+<li>the test dataset contains domain-specific instances.</li>
+</ul>
+]]></content>
+      <categories>
+        <category>Research</category>
+      </categories>
+      <tags>
+        <tag>lexical substitution</tag>
+        <tag>survey</tag>
+      </tags>
+  </entry>
+</search>
